@@ -2,12 +2,12 @@ package com.java.bootcamp.assignment;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileService {
+	private static String FILE_NAME = "data.txt";
 	
 	public User[] getUserData() {
 		System.out.println("Opening the file reader to read \"data.txt\" file and extract the data source.");
@@ -17,7 +17,7 @@ public class FileService {
 		try {
 			String line;
 			int i = 0;
-			fileReader = new BufferedReader(new FileReader("data.txt"));
+			fileReader = new BufferedReader(new FileReader(FILE_NAME));
 			
 			while((line = fileReader.readLine()) != null) {
 				String[] values = line.split(", ");
@@ -27,7 +27,6 @@ public class FileService {
 				} else {
 					userArray[i] = new SuperUser(values);
 				}
-				
 				i++;
 			}
 		} catch (IOException e) {
@@ -46,12 +45,12 @@ public class FileService {
 		return userArray;
 	}
 	
-	public void setUserData(String formattedData) {
+	public void updateUserData(String userdata) {
 		BufferedWriter fileWriter = null;
 		
 		try {
-			fileWriter = new BufferedWriter(new FileWriter("data.txt"));
-			fileWriter.write(formattedData);
+			fileWriter = new BufferedWriter(new FileWriter(FILE_NAME));
+			fileWriter.write(userdata);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {
@@ -64,5 +63,4 @@ public class FileService {
 			}
 		}
 	}
-
 }

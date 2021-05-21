@@ -18,4 +18,14 @@ public class UserService {
 		}
 		return formattedData;
 	}
+
+	public User getUserdetails(String newUserName, User[] userArray) {
+		
+		for(User user : userArray) {
+			if(newUserName.equalsIgnoreCase(user.getUsername())) {
+				return user;
+			}
+		}
+		return null;
+	}
 }

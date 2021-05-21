@@ -1,6 +1,6 @@
 package com.java.bootcamp.assignment;
 
-public class User {
+public class User implements Comparable<User>{
 	private String username;
 	private String password;
 	private String name;
@@ -35,10 +35,17 @@ public class User {
 		this.role = role;
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + ", name=" + name + ", role=" + role + "]";
 	}
 	
+	@Override
+	public int compareTo(User that) {
+		if(that.role.compareTo(this.role) == 0) {
+			return this.username.compareTo(that.username);
+		}else {
+			return that.role.compareTo(this.role);
+		}
+	}
 }

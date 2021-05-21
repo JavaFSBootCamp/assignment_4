@@ -1,5 +1,6 @@
 package com.java.bootcamp.assignment;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class UserApplication {
@@ -26,7 +27,7 @@ public class UserApplication {
 			
 			loggedInUser = userService.validateUser(userName, password, userArray);
 			if(loggedInUser != null){
-				System.out.println("Welcome: "+ loggedInUser.getName() + " : Role :  " + loggedInUser.getRole());
+				System.out.println("Welcome: "+ loggedInUser.getName() + "\n");
 				break;
 			}
 			else
@@ -44,29 +45,38 @@ public class UserApplication {
 		
 		if(loggedInUser != null) {
 			int option = 0; 
-			while(option < 4) {
+			while(option != 4) {
 				option = generateOptions(loggedInUser);
 				
 				switch(option) {
-				case 0:
-					System.out.println("Option 0 ");
-					break;
-				case 1:
-					updateUserName(loggedInUser);
-					break;
-				case 2:
-					updatePassword(loggedInUser);
-					break;
-				case 3:
-					updateName(loggedInUser);
-					break;
-				case 4:
-					System.out.println("Option 4 ");
-					break;
+					case 0:
+						if("super_user".equals(loggedInUser.getRole())){
+							String newUserName = switchUser();
+							User newloggedInUser = userService.getUserdetails(newUserName, userArray);
+							
+							if(newloggedInUser != null){
+								System.out.println("Welcome: "+ newloggedInUser.getName() +"\n");
+								loggedInUser = newloggedInUser;
+							}else {
+								System.out.println("User not availble!! Please Choose the Correct Option.");
+							}
+							
+						}
+						break;
+					case 1:
+						updateUserName(loggedInUser); break;
+					case 2:
+						updatePassword(loggedInUser); break;
+					case 3:
+						updateName(loggedInUser); break;
+					case 4:
+						System.out.println("Exit"); break;
+					default:
+						System.out.println("Please Enter a Valid Input!! \n"); break;
 				}
-				//userService.reformatingData(userArray);
-				fileService.setUserData(userService.reformatingData(userArray));
 			}
+			Arrays.sort(userArray);
+			fileService.updateUserData(userService.reformatingData(userArray));
 		}
 		scanner.close();
 	}
@@ -82,30 +92,38 @@ public class UserApplication {
 		System.out.println("(3) Update name");
 		System.out.println("(4) Exit");
 		
-		return Integer.parseInt(scanner.nextLine());
+		int optionInput = -1;
+		try {
+			optionInput = Integer.parseInt(scanner.nextLine());
+		}catch(NumberFormatException e) {
+			//System.out.println("Please Enter a valid Option");
+		}
+		
+		return optionInput;
 	}
+	
+	private static String switchUser() {
+		System.out.println("Which user would you like to login as? (Type in a valid username)");
+		
+		return scanner.nextLine();
+	}
+
 	
 	private static void updateUserName(User loggedInUser) {
 		System.out.println("Please type in your new username: ");
 		String username = scanner.nextLine();
 		loggedInUser.setUsername(username);
-		
-		fileService.setUserData(userService.reformatingData(userArray));
 	}
 	
 	private static void updatePassword(User loggedInUser) {
 		System.out.println("Please type in your new password: ");
 		String password = scanner.nextLine();
 		loggedInUser.setPassword(password);
-		
-		fileService.setUserData(userService.reformatingData(userArray));
 	}
 	
 	private static void updateName(User loggedInUser) {
 		System.out.println("Please type in your new name: ");
 		String name = scanner.nextLine();
 		loggedInUser.setName(name);
-		
-		fileService.setUserData(userService.reformatingData(userArray));
 	}
 }
