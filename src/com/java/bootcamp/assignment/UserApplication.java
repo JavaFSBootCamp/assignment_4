@@ -60,7 +60,6 @@ public class UserApplication {
 							}else {
 								System.out.println("User not availble!! Please Choose the Correct Option.");
 							}
-							
 						}
 						break;
 					case 1:
@@ -95,8 +94,8 @@ public class UserApplication {
 		int optionInput = -1;
 		try {
 			optionInput = Integer.parseInt(scanner.nextLine());
-		}catch(NumberFormatException e) {
-			//System.out.println("Please Enter a valid Option");
+		}catch(NumberFormatException e) { 
+			//e.printStackTrace();}
 		}
 		
 		return optionInput;
